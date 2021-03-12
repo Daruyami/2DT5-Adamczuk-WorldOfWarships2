@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>World of Warships 2</title>
+    <style>
+        * {
+            background-color: #232832;
+            color: #fff;
+            margin: 0px;
+            padding: 0px;
+        }
+        h3 {
+            height: 25px;
+            width: 100%;
+            border-bottom: solid 1px white;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+        }
+        #chadContainer {
+            width: 20%;
+            height: calc(100% - 26px);
+            float: left;
+        }
+        #chadMes {
+            background-color: #546078;
+            height: 95%;
+            overflow: scroll;
+            border: solid 1px white;
+        }
+        #chadMes * {
+            background-color: #546078;
+        }
+        .inp {
+            background-color: #546078;
+            display: flex;
+            float: left;
+            border: none;
+            border-bottom: solid 1px white;
+            border-right: solid 1px white;
+        }
+        #chadMesContent {
+            width: 85%;
+        }
+        #chadMesSend {
+            background-color: #546078;
+            width: calc(15% - 2px);
+        }
+        #wowTable {
+            width: 80%;
+            height: 80%;
+            float: left;
+        }
+    </style>
+  </head>
+  <body>
+    <h3>World of Warships 2!</h3>
+
+    <div id="chadContainer">
+        <div id="chadMes"></div>
+        <form action="" method="POST" id="chadForm">
+            <input type="text" id="chadMesContent" placeholder="Messages" class="inp" autocomplete="off"/>
+            <input type="submit" id="chadMesSend" value=">" class="inp"/>
+        </form>
+    </div>
+    
+    <div id="wowTable">
+        <table>
+            <tr>
+                <th>a</th>
+                <th>b</th>
+                <th>c</th>
+            </tr>
+            <tr>
+                <th>d</th>
+                <th>e</th>
+                <th>f</th>
+            </tr>
+            <tr>
+                <th>g</th>
+                <th>h</th>
+                <th>i</th>
+            </tr>
+        </table>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+//łączenie sie z serwerem
+var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+socket.addEventListener( 'connect', function() {
+    socket.emit( 'my event', {
+        data: 'User Connected'
+    } )
+
+    var form = document.getElementById('chadForm').addEventListener( 'submit', function( e ) {
+        e.preventDefault()
+        //↓pozostałości po oryginalnym kodzie który z jakiegoś nieracjonalnego powodu był zaśmiecony jquery, po przepisaniu tego wszystkiego zostawiłem tą linijke żebym o czymś nie zapomniał ale już nie pamiętam co to było
+        //let user_name = $( 'input.username' ).value()
+        let user_input = document.getElementById( 'chadMesContent' ).value
+        socket.emit( 'my event', {
+        //jak narazie nazwy nie da sie zmienić, zamierzam dodać cookie z jakimś losowo generowanym unikalnym identyfikatorem do którego będzie przypisana nazwa i wszystko powiązane z grą ale do tego jeszcze troche brakuje
+        user_name : "Anon",
+        message : user_input
+        } )
+    } )
+} )
+
+
+//bez tego chat zamienia sie w piaskownice skryptów
+function sanitize(string) {
+  const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      "/": '&#x2F;',
+  };
+  const reg = /[&<>"'/]/ig;
+  return string.replace(reg, (match)=>(map[match]));
+}
+
+socket.addEventListener( 'my response', function( msg ) {
+console.log( msg )
+if( typeof msg.message !== 'undefined' ) {
+    //jak narazie czyszcze tylko samą wiadomość bo zmiany nazwy jeszcze nie wprowadziłem
+    massage = sanitize(msg.message);
+    document.getElementById( 'chadMes' ).innerHTML += '<div class="message"><b>'+msg.user_name+' :</b> '+massage+'</div>'
+}
+})
+    </script>
+  </body>
+</html>
