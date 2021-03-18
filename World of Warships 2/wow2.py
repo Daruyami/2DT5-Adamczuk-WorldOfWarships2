@@ -33,3 +33,4 @@ def gameStart(sizex, sizey):
 #addPlayer("krowin")
 #print(players)
 #gameStart(2, 2)
+# jako że chce możliwość dołączania do już rozpoczętej gry będe musiał jeszcze dodać żeby ogarniało boarda dla nowo wprowadzonych graczy ale mam już zamysł jak to ma mniej więcej wyglądać
