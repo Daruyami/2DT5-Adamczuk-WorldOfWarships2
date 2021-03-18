@@ -1,19 +1,35 @@
-#bruh
-def wow2In():
-    print("abc")
+players = []
+playerNum = 0 # = liczba graczy, podczas tworzenia gracza jego pid jest równe temu, po operacji playerNum++   ...albo po prostu `len(players)
+class player:
+    def __init__(self, name, pid):
+        self.name = name
+        self.pid = pid
+    # myśle nad przeniesieniem paru z ↓funkcji do środka tego ale nwm    ...zobaczy sie jak zaczne ogarniać gameBoarda
 
-wow2In()
-players = 2
-x = y = 3
-ships = 2
+plen = ""
+def addPlayer(pname):
+    global playerNum
+    global plen
+    players.append( player(pname, playerNum) )
+    playerNum = len(players)
+    plen = "f" * playerNum
 
-wowTable = [ [ [ False ] * players ] * y ] * x  #yyyyyyyy
+#def remPlayer(pid):
+    # players.pop?
 
-print(wowTable)
+def gameStart(sizex, sizey):
+    global plen
+    gameBoard = [ [ plen ] * sizey ] * sizex
+    print(gameBoard)
 
+#def placeShips(pid, coordString):
+    # somethin
 
+#def attack(pid, coordString):
+    # somethin
 
-
-def startGame(x, y, ships):
-    # coś
-    # ilość graczy zreimplementować *jakoś* tak aby gracze mogli dołączać podczas gry bez problemu? czy to wgl ma prawo działać?
+# tutaj pare testów
+#addPlayer("Andrzej Duda")
+#addPlayer("krowin")
+#print(players)
+#gameStart(2, 2)
